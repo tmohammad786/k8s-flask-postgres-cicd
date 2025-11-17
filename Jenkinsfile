@@ -12,7 +12,7 @@ pipeline {
 
         stage('Checkout Code') {
             steps {
-                git branch: 'main', url: 'https://github.com/tajmohd/flask-k8s-cicd.git'
+                git branch: 'main', url: 'https://github.com/tmohammad786/flask-k8s-cicd.git'
             }
         }
 
