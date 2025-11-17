@@ -1,0 +1,55 @@
+pipeline {
+    agent any
+
+    environment {
+        DOCKERHUB = "tajmohd"    // your Docker Hub username
+        IMAGE = "flask-k8s-app"
+        K8S_DEPLOYMENT = "flask-app"
+        K8S_NAMESPACE = "default"
+    }
+
+    stages {
+
+        stage('Checkout Code') {
+            steps {
+                git branch: 'main', url: 'https://github.com/tajmohd/flask-k8s-cicd.git'
+            }
+        }
+
+        stage('Build Docker Image') {
+            steps {
+                script {
+                    dockerImage = docker.build("${DOCKERHUB}/${IMAGE}:${BUILD_NUMBER}")
+                }
+            }
+        }
+
+        stage('Push Image to DockerHub') {
+            steps {
+                script {
+                    docker.withRegistry('', 'dockerhub') {
+                        dockerImage.push()
+                    }
+                }
+            }
+        }
+
+        stage('Update Deployment YAML') {
+            steps {
+                sh """
+                sed -i 's|image:.*|image: ${DOCKERHUB}/${IMAGE}:${BUILD_NUMBER}|' flask-deployment.yaml
+                """
+            }
+        }
+
+        stage('Deploy to Kubernetes') {
+            steps {
+                sh """
+                kubectl apply -f flask-deployment.yaml
+                kubectl rollout status deployment/${K8S_DEPLOYMENT} -n ${K8S_NAMESPACE}
+                """
+            }
+        }
+    }
+}
+
