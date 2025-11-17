@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     environment {
-        DOCKERHUB = "tajmohd"    // your Docker Hub username
+        DOCKERHUB = "tajmohd"    
         IMAGE = "flask-k8s-app"
         K8S_DEPLOYMENT = "flask-app"
         K8S_NAMESPACE = "default"
