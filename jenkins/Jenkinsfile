@@ -5,7 +5,7 @@ pipeline {
         DOCKERHUB = "tajmohd"    
         IMAGE = "flask-k8s-app"
         K8S_DEPLOYMENT = "flask-app"
-        K8S_NAMESPACE = "kube-system"
+        K8S_NAMESPACE = "default"
     }
 
     stages {
