@@ -6,7 +6,7 @@ app = Flask(__name__)
 
 @app.route("/")
 def home():
-    return "Flask App is not Running"
+    return "Flask App is not Running and DB Connection is failing"
 
 @app.route("/db")
 def db_check():
