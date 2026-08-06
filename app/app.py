@@ -6,7 +6,7 @@ app = Flask(__name__)
 
 @app.route("/")
 def home():
-    return "NodeJS App Running Successfully!"
+    return "Flask App Running Successfully!"
 
 @app.route("/db")
 def db_check():
